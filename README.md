@@ -14,9 +14,14 @@ Roles:
 - Galera_node
 
 
-Upgrade: Upgrade all packages on the system, and prevent from install a new kernel version
+Upgrade
 
-Nginx: Install nginx webserver with SSL self signed certificates and logrotate conf for backup webserver logs and compress in a tar.gz file.
+Upgrade all packages on the system, and prevent from install a new kernel version
+
+
+Nginx
+
+Install nginx webserver with SSL self signed certificates and logrotate conf for backup webserver logs and compress in a tar.gz file.
 
 
 Nginx-lb
@@ -48,6 +53,4 @@ Install the master node for Mariadb galera high availability cluster configured 
 Galera_nodes
 
 Install Mariadb replication nodes.
-
-Install nodes for 
 
