@@ -5,15 +5,14 @@ The project consist in a group of roles for fully automized deploy Joomla CMS wi
 Directory trees:
 
        galera_cluster
-       ├── handlers
-       │     └── main.yml
-       ├── README
-       ├── tasks
-       │     └── main.yml
-       └── templates
-             ├── galera.cnf
-             ├── my.cnf
-             └── mysql-logrotate.conf
+       ├handlers
+       │  └── main.yml
+       ├tasks
+       │  └── main.yml
+       └─templates
+          ├── galera.cnf
+          ├── my.cnf
+          └── mysql-logrotate.conf
            
        galera_node
        ├── handlers
