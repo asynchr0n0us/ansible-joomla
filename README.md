@@ -14,14 +14,9 @@ Roles:
 - Galera_node
 
 
-Upgrade
+Upgrade: Upgrade all packages on the system, and prevent from install a new kernel version
 
-Upgrade all packages on the system, and prevent from install a new kernel version
-
-
-Nginx
-
-Install nginx webserver with SSL self signed certificates and logrotate conf for backup webserver logs and compress in a tar.gz file.
+Nginx: Install nginx webserver with SSL self signed certificates and logrotate conf for backup webserver logs and compress in a tar.gz file.
 
 
 Nginx-lb
