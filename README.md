@@ -8,6 +8,7 @@ Directory tree:
 ├── hosts
 ├── joomla.yml
 └── roles
+
     ├── galera_cluster
     │   ├── handlers
     │   │   └── main.yml
@@ -18,6 +19,7 @@ Directory tree:
     │       ├── galera.cnf
     │       ├── my.cnf
     │       └── mysql-logrotate.conf
+    
     ├── galera_node
     │   ├── handlers
     │   │   └── main.yml
@@ -26,7 +28,9 @@ Directory tree:
     │   │   └── main.yml
     │   └── templates
     │       ├── galera.cnf
-    │       └── my.cnf
+            └── my.cnf
+            
+            
     ├── joomla
     │   ├── handlers
     │   │   └── main.yml
@@ -37,6 +41,8 @@ Directory tree:
     │       ├── joomla.conf
     │       ├── robots.txt
     │       └── send_log.sh
+    
+    
     ├── mysql
     │   ├── handlers
     │   │   └── main.yml
@@ -45,6 +51,9 @@ Directory tree:
     │   └── templates
     │       ├── my.cnf
     │       └── mysql-logrotate.conf
+    
+    
+    
     ├── nginx
     │   ├── certs
     │   │   ├── joomla.csr
@@ -59,6 +68,8 @@ Directory tree:
     │       ├── nginx.conf.tpl
     │       ├── nginx-logrotate.conf
     │       └── ssl.conf
+    
+    
     ├── nginx-lb
     │   ├── handlers
     │   │   └── main.yml
@@ -70,6 +81,9 @@ Directory tree:
     │       ├── nginx.conf.tpl
     │       ├── nginx-logrotate.conf
     │       └── ssl.conf
+    
+    
+    
     ├── php
     │   ├── handlers
     │   │   └── main.yml
@@ -81,9 +95,16 @@ Directory tree:
     │       ├── php.ini.hardened
     │       ├── php.ini.ori
     │       └── phpwebsite.conf
+    
+    
+    
     ├── upgrade
     │   └── tasks
     │       └── main.yml
+    
+    
+    
+    
     └── vars
         ├── joomla_configuration.yml
         └── vars.yml
