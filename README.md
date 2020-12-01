@@ -8,11 +8,11 @@ Directory trees:
        ├handlers
        │  └── main.yml
        ├tasks
-       │  |─ main.yml
+        |─ main.yml
        └─templates
-          |── galera.cnf
-          |── my.cnf
-          |── mysql-logrotate.conf
+        |── galera.cnf
+        |── my.cnf
+        |── mysql-logrotate.conf
            
        galera_node
        ├── handlers
