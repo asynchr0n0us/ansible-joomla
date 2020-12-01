@@ -31,10 +31,10 @@ Directory trees:
       ├── tasks
       │   └── main.yml
       └── templates
-          ├── configuration.php
-          ├── joomla.conf
-          ├── robots.txt
-          └── send_log.sh
+           ├── configuration.php
+           ├── joomla.conf
+           ├── robots.txt
+           └── send_log.sh
     
     
       mysql
