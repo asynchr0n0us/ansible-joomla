@@ -1,1 +1,1 @@
-# ansible-joomla
+# joomla-ansible
