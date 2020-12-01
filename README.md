@@ -103,7 +103,7 @@ Roles:
 - php
 - joomla
 - galera_cluste
-- galera_node
+- galera_node-
 
 
 
