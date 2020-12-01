@@ -1,0 +1,27 @@
+[all:vars]
+ansible_ssh_user='ubuntu'
+ansible_ssh_private_key= /home/my/private/key/
+ansible_become=yes
+ansible_become_method=sudo
+ansible_python_interpreter='/usr/bin/env python3'
+inventory=hosts
+
+[cluster]
+172.31.1.20
+
+[nodes]
+172.31.44.12
+172.31.35.108
+
+
+[webservers]
+172.31.44.12
+172.31.35.108
+172.31.1.20
+
+[haproxy-lb]
+
+[nginx-lb]
+172.31.44.40
+
+

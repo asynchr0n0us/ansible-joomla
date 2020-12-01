@@ -1,0 +1,90 @@
+---
+- name: "Install Nginx packages"
+  apt:
+     name: ["logrotate", "nginx", "nginx-extras", "nginx-common", "mailutils", "bsd-mailx"]
+     state: present
+
+
+- name: "Create ssl and cert dir"
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0640
+  loop:
+    - /etc/nginx/ssl
+    - /etc/nginx/ssl/{{ cert_dir_name }}
+
+
+- name:  "Copy nginx conf mime types ssl and logrotate conf"
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
+  with_items:
+      - { src: 'nginx.conf.tpl', dest: '/etc/nginx/nginx.conf' }
+      - { src: 'mime.types', dest: '/etc/nginx/mime.types' }
+      - { src: 'ssl.conf', dest: '/etc/nginx/snippets/ssl.conf' }
+      - { src: 'nginx-logrotate.conf', dest: '/etc/logrotate.d/nginx' }
+
+
+# - name: "Insert loadbalance to hosts"
+#   lineinfile:
+#       dest: '/etc/hosts'
+#       line: '{{ item }}'
+#       insertafter: EOF
+#   with_items:
+#       - '{{ lb_ip }} {{ lb_dns }}'
+
+
+
+- name: "Ensure sites-enabled dir exist"
+  file: path=/etc/nginx/sites-enabled state=directory mode=0755
+
+- name: "Disable Default Site"
+  file: dest=/etc/nginx/sites-enabled/default state=absent
+
+- name: "Create CA root key"
+  openssl_privatekey:
+    path: "/etc/nginx/ssl/{{ cert_dir_name }}/root_key.pem"
+  register: ca_key
+
+- name: "Create the CSR"
+  openssl_csr:
+    path: "/etc/nginx/ssl/{{ cert_dir_name }}/cert_sign_request.csr"
+    privatekey_path: "/etc/nginx/ssl/{{ cert_dir_name }}/root_key.pem"
+    country_name: '{{ country }}'
+    organization_name: '{{ organization }}'
+    email_address: '{{ email }}'
+    common_name: '{{ common_name }}'
+    subject_alt_name: 'DNS:{{ subject_alt_name }}'
+  register: ca_csr
+
+- name: "Sign the certificate"
+  openssl_certificate:
+    path: "/etc/nginx/ssl/{{ cert_dir_name }}/ca_cert.crt"
+    csr_path: "/etc/nginx/ssl/{{ cert_dir_name }}/cert_sign_request.csr"
+    privatekey_path: "/etc/nginx/ssl/{{ cert_dir_name }}/root_key.pem"
+    provider: selfsigned
+  register: ca_crt
+
+- name: "Remove the CSR"
+  file:
+   path: '/etc/nginx/ssl/{{ cert_dir_name }}/cert_sign_request.csr'
+   state: absent
+
+- name: "Create ssl_passwords file"
+  file:
+     path: "/root/.ssl_passwords"
+     state: touch
+     mode: 640
+     owner: root
+
+- name: "Create ssl password file"
+  copy:
+    dest: "/root/.ssl_passwords"
+    content: "{{ cert_passphrase }}"
+
+- name: "Start and enable nginx"
+  service: name=nginx enabled=yes state=started
+
+- name: "Start logrotate"
+  command: 'logrotate /etc/logrotate.d/nginx'

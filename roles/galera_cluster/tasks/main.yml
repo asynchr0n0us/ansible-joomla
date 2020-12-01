@@ -1,0 +1,61 @@
+---
+- name: "Add Mariadb GPG"
+  command: "sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8"
+
+- name: "Add Maridb repository"
+  command: sudo add-apt-repository "deb [arch=amd64,arm64,ppc64el] http://mariadb.mirror.liquidtelecom.com/repo/10.4/ubuntu {{ codename }} main"
+
+- name: "Install Mariadb server"
+  apt:
+    name: ["mariadb-server", "mariadb-common", "python3-pymysql", "mysql-common", "socat", "rsync", "mariadb-client", "libmysqlclient20", "mariadb-backup", "software-properties-common", "galera-arbitrator-4", "mariadb-client", "galera-4", "mariadb-plugin-cracklib-password-check"]
+    state: present
+
+
+- name: "Set the root password"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: root
+    password: "{{ mysql_root_password }}"
+    update_password: always
+    priv: "*.*:ALL,GRANT"
+    check_implicit_admin: yes
+    host: localhost
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+- name: "Remove all anonymous user accounts"
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+
+#mysql_secure_installation
+- name: "Remove MySQL test database"
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name:  "Copy logrotate and galera masterconf"
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
+  with_items:
+      - { src: 'mysql-logrotate.conf', dest: '/etc/logrotate.d/mysql-server' }
+      - { src: 'galera.cnf', dest: '/etc/mysql/conf.d/galera.cnf' }
+
+
+
+  notify: "Stop mysql server"
+
+- name: "Create the new cluster"
+  shell: galera_new_cluster
+  become: yes
+
+  notify: "Restart mysql server"

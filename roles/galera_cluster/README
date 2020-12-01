@@ -1,0 +1,6 @@
+Galera can make use of four ports:
+
+3306 tcp For MySQL client connections and State Snapshot Transfer that use the mysqldump method.
+4567 tcp/udp  For Galera Cluster replication traffic. Multicast replication uses both UDP transport and TCP on this port.
+4568 tcp For Incremental State Transfer.
+4444 tcp For all other State Snapshot Transfer.

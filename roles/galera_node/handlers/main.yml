@@ -1,0 +1,9 @@
+---
+- name: "Start mysql server"
+  service: name=mysqld state=started
+
+- name: "Stop mysql server"
+  service: name=mysqld-server state=stopped
+
+- name: "Restart mysql server"
+  service: name=mysqld state=restarted

@@ -1,0 +1,21 @@
+---
+- hosts: nodes
+  become: true
+
+
+
+  vars_files:
+     - roles/vars/vars.yml
+     - roles/vars/joomla_configuration.yml
+
+  roles:
+#    - upgrade
+#    - nginx
+#    - nginx-lb
+#    - mysql
+#    - php
+    - joomla
+#    - galera_cluster
+#    - galera_node
+
+

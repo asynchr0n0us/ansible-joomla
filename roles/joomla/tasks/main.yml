@@ -1,0 +1,78 @@
+---
+- name: "Create web root for joomla"
+  file: dest=/var/www/{{ srv_root_name }}/ mode=755 state=directory owner=www-data group=www-data recurse=yes #setype:httpd_sys_content_t
+
+
+- name:  "Copy files"
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
+  with_items:
+      - { src: '.htaccess', dest: '/var/www/{{ srv_root_name }}/' }
+      - { src: 'robots.txt', dest: '/var/www/{{ srv_root_name }}/' }
+      - { src: 'joomla.conf', dest: '/etc/nginx/sites-enabled/joomla.conf' }
+
+
+- name: "Download Joomla {{ joomla_version }}"
+  get_url: url=https://downloads.joomla.org/it/cms/joomla3/{{ joomla_version }}/Joomla_{{ joomla_version }}-Stable-Full_Package.tar.gz dest=/tmp/Joomla_{{ joomla_version }}-Stable-Full_Package.{{ joomla_extension }}
+
+- name: "Check Joomla SHA1sum"
+  stat:
+    path: "/tmp/Joomla_{{ joomla_version }}-Stable-Full_Package.{{ joomla_extension }}"
+  register: result
+- debug:
+    var: result.stat.checksum
+- assert:
+    that: "joomla_sha1sum == result.stat.checksum"
+    fail_msg: '[ERR] Checksum failed.'
+
+- name: "Extract archive"
+  unarchive:
+    remote_src: yes
+    src: /tmp/Joomla_{{ joomla_version }}-Stable-Full_Package.{{ joomla_extension }}
+    dest: /var/www/{{ srv_root_name }}
+
+
+#- name: "Set permissions for directories"
+#  command: "find /var/www/{{ srv_root_name }}/ -exec chown -R www-data:www-data {} ;"
+#  become: yes
+
+#- name: "Set permissions for directories"
+#  command: "find /var/www/{{ srv_root_name }}/ -type d -exec chmod 755 {} ;"
+#  become: yes
+#
+
+#- name: "Set permissions for files"
+#  command: "find /var/www/{{ srv_root_name }}/ -type f -exec chmod 644 {} ;"
+
+#- name: "Set permissions on configuration.php file"
+#  command: "chmod 640 /usr/bin/find /var/www/{{ srv_root_name }}/configuration.php"
+
+- name: "Change ownership to www root"
+  comand: "chown -R www-data:www-data /var/www/{{ srv_root_name }}"
+  notify: "Restart Nginx"
+
+- name: "Copy files"
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0755
+  with_items:
+      - { src: 'send_log.sh', dest: '/etc/nginx/' }
+
+
+
+#- name: "Copy joomla configuration php"
+#  template: src=configuration.php dest='/var/www/{{ srv_root_name }}/configuration.php'
+
+- name: "Remove htaccess.txt, robots.txt.dist and installation dir"
+  file: path='/var/www/{{ srv_root_name }}/htaccess.txt' state=absent
+- file: path='/var/www/{{ srv_root_name }}/robots.txt.dist' state=absent
+#- file: path='/var/www/{{ srv_root_name }}/installation' state=absent
+
+
+####In order to make it work you need to have installed a smtp server
+- name: "Create send_log cron job"
+  become: yes
+  become_method: sudo
+  cron:
+    name: "Exec send_log.sh"
+    user: "root"
+    minute: 15
+    job: "/bin/sh /etc/nginx/send_log.sh"
+    state: present

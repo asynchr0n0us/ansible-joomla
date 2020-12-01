@@ -1,0 +1,28 @@
+---
+- name: "Install pkg"
+  apt:
+   name: ["apt-transport-https", "software-properties-common", 'ca-certificates', 'curl', 'gnupg-agent', "vim"] #"gnupg2"
+   update_cache: yes
+   state: present
+
+- name: "Prevent upgrade from install a new kernel"
+  command: 'apt-mark hold linux-generic* linux-image-generic* linux-headers-generic*'
+
+- name: "Upgrade packages on the host"
+  apt:
+   upgrade: yes
+   force_apt_get: yes
+   cache_valid_time: 3600
+
+- name: "Check if server need a reboot"
+  register: reboot_required_file
+  stat: path=/var/run/reboot-required get_md5=no
+
+- name: "Reboot the server if needed"
+  reboot:
+    connect_timeout: 5
+    reboot_timeout: 60
+    pre_reboot_delay: 0
+    post_reboot_delay: 30
+    test_command: uptime
+  when: reboot_required_file.stat.exists

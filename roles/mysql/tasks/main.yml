@@ -1,0 +1,80 @@
+---
+- name: "Add Mariadb GPG"
+  command: "sudo apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8"
+
+- name: "Add Maridb repository"
+  command: sudo add-apt-repository "deb [arch=amd64,arm64,ppc64el] http://mariadb.mirror.liquidtelecom.com/repo/10.4/ubuntu {{ codename }} main"
+
+- name: "Install Mariadb server"
+  apt:
+    name: ["mariadb-server", "mariadb-common", "python3-pymysql", "mysql-common", "socat", "rsync", "mariadb-client", "libmysqlclient20", "mariadb-backup", "software-properties-common"]
+    state: present
+    update_cache: yes
+
+- name:  "Copy logrotate conf"
+  template: src={{item.src}} dest={{item.dest}} owner=root group=root mode=0644
+  with_items:
+      - { src: 'mysql-logrotate.conf', dest: '/etc/logrotate.d/mysql-server' }
+
+- name: "Copy mysql conf"
+  template: src=my.cnf dest=/etc/my.cnf.d
+
+
+- name: "Set the root password"
+  mysql_user:
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    name: root
+    password: "{{ mysql_root_password }}"
+    update_password: always
+    priv: "*.*:ALL,GRANT"
+    check_implicit_admin: yes
+    host: localhost
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+
+
+- name: "Remove all anonymous user accounts"
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+
+#mysql_secure_installation
+- name: "Remove MySQL test database"
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+- name: "Creates db for webserver"
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+#
+
+
+- name: "Set permission for db"
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ 'db_password' }}"
+    state: present
+    priv: "{{ db_name }}.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  notify: "Restart mysql"

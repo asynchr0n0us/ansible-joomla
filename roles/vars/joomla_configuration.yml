@@ -1,0 +1,86 @@
+####joomla configurations
+#Commented parameters are handled from vars.yml
+#joomla_offline: 0
+#joomla_offline_message: This site is down for maintenance. Please check back again soon
+joomla_display_offline_message: 1
+joomla_offline_image:
+#joomla_sitename: Joomla
+#joomla_editor: tinymce
+joomla_captcha: 0
+#joomla_list_limit: 20
+#joomla_access: 1
+joomla_debug_lang: 0
+# joomla_dbtype: msqli
+# joomla_host: localhost
+# joomla_user:
+# joomla_password:
+# joomla_db:
+# joomla_dbprefix: xyz1na_
+joomla_live_site:
+joomla_secret:
+joomla_gzip: 1
+#joomla_error_reporting: default
+joomla_helpurl: https://help.joomla.org/proxy?
+joomla_ftp_host:
+joomla_ftp_port:
+joomla_ftp_user:
+joomla_ftp_pass:
+joomla_ftp_root:
+joomla_ftp_enable: 0
+joomla_offset: UTC
+joomla_mailonline: 0
+joomla_mailer: smtp
+joomla_sendmail:
+joomla_fromname:
+joomla_sendmail:
+joomla_smtpauth:
+joomla_smtpuser:
+joomla_smtppass:
+joomla_smtphost:
+joomla_smtpsecure:
+joomla_smtpport:
+joomla_caching: 2
+joomla_cache_handler: file
+joomla_cachetime: 100
+joomla_MetaDesc:
+joomla_MetaKeys:
+joomla_MetaTitle: 1
+joomla_MetaAuthor: 1
+joomla_MetaVersion: 0
+joomla_robots:
+joomla_sef: 1
+joomla_sef_rewrite: 0
+joomla_sef_suffix: 0
+joomla_unicodeslugs: 0
+joomla_feed_limit: 10
+joomla_log_path:
+joomla_tmp_path:
+joomla_lifetime: 6000
+joomla_session_handler: database
+joomla_memcache_persist: 1
+joomla_memcache_compress: 1
+joomla_memcached_server_host: localhost
+joomla_memcached_server_port: 11211
+joomla_redis_persist: 1
+joomla_redis_server_host: localhost
+joomla_redis_server_port: 6379
+joomla_redis_server_auth:
+joomla_redis_server_db: 0
+joomla_proxy_enable:
+joomla_proxy_host:
+joomla_proxy_port:
+joomla_proxy_user:
+joomla_proxy_pass:
+joomla_massmailoff: 1
+joomla_MetaRights:
+joomla_sitename_pagetitles: 0
+joomla_force_ssl: 2
+joomla_session_memcache_server_host: localhost
+joomla_session_memcache_server_port: 11211
+joomla_session_memcached_server_host: localhost
+joomla_session_memcached_server_port: 11211
+joomla_frontediting: 0
+joomla_feed_email: author
+joomla_cookie_domain:
+joomla_cookie_path:
+joomla_asset_id: 1
