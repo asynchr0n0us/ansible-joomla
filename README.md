@@ -11,7 +11,7 @@ Roles:
 - Php
 - Joomla
 - Galera_cluster
-- Galera_node-
+- Galera_node
 
 
 Upgrade
