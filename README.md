@@ -1,6 +1,6 @@
 # joomla-ansible
 
-The project consist in a group of roles for fully automized deploy Joomla CMS with Ansible. The roles has been tested on Ubuntu 18.04 Amazon EC2 istances and Ansible 2.9.2
+The project consist in a group of roles for fully automized deploy Joomla 3.9.23 CMS with Ansible. The roles has been tested on Ubuntu 18.04 Amazon EC2 istances and Ansible 2.9.2
 
 
 Roles:
