@@ -6,14 +6,14 @@ Directory trees:
 
        galera_cluster
        ├── handlers
-       │   └── main.yml
+       │     └── main.yml
        ├── README
        ├── tasks
-       │   └── main.yml
+       │     └── main.yml
        └── templates
-           ├── galera.cnf
-           ├── my.cnf
-           └── mysql-logrotate.conf
+             ├── galera.cnf
+             ├── my.cnf
+             └── mysql-logrotate.conf
            
        galera_node
        ├── handlers
