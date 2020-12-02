@@ -76,13 +76,3 @@ subject_alt_name: www.joomla-install.com
 sockname: php7.2-fpm
 php_user: www-data
 php_group: www-data
-
-
-#SElinux
-se_role1: unconfined_r
-se_role2: system_r
-se_user: ubuntu_u
-linux_exsisting_user: ubuntu
-se_user_template: unconfined_u
-se_type: sysadm_t
-se_ssh: system_u
