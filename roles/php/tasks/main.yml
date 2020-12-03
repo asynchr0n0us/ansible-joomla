@@ -23,8 +23,8 @@
   
 - name: "Disable default pool"
   stat: path='/etc/php/7.2/fpm/pool.d/www.conf'
-  register: wwwconf_stat
+  register: www_conf
 - command: mv /etc/php/7.2/fpm/pool.d/www.conf /etc/php/7.2/fpm/pool.d/www.disabled
-  when: wwwconf_stat.stat.exists
+  when: www_conf.stat.exists
   
   notify: "Restart php7.2-fpm"
