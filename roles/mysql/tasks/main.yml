@@ -63,18 +63,10 @@
     login_user: root
     login_password: "{{ mysql_root_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+    
+- name: "Set user password and permissions"
+  command: mysql --user=root --password={{ mysql_root_password }} mysql --execute="CREATE USER {{ db_user }}@localhost IDENTIFIED BY {{ db_password }}; GRANT ALL PRIVILEGES ON {{ db_name }}.* TO {{ db_user }}@localhost;"
+ 
 
-#
 
 
-- name: "Set permission for db"
-  mysql_user:
-    name: "{{ db_user }}"
-    password: "{{ 'db_password' }}"
-    state: present
-    priv: "{{ db_name }}.*:ALL"
-    state: present
-    login_user: root
-    login_password: "{{ mysql_root_password }}"
-    login_unix_socket: /var/run/mysqld/mysqld.sock
-  notify: "Restart mysql"
