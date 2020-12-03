@@ -18,8 +18,6 @@
 - name: "Start and enable php-fpm"
   service: name=php7.2-fpm state=started enabled=yes
 
-- file: dest=/var/log owner=root group=syslog mode=700 recurse=yes
-
 - name: "Setup logrotate"
   command: 'logrotate /etc/logrotate.d/php7.2-fpm'
   
