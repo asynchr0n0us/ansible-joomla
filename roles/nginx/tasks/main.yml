@@ -1,7 +1,7 @@
 ---
 - name: "Install Nginx packages"
   apt:
-     name: ["logrotate", "nginx", "nginx-extras", "nginx-common", "mailutils", "bsd-mailx"]
+     name: ["logrotate", "nginx", "nginx-extras", "nginx-common", "mailutils"]
      state: present
 
 
