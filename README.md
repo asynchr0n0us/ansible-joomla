@@ -47,7 +47,7 @@ Permit to choose which from a global variable the Joomla version to deploy and m
 
 # Galera_cluster
 
-# Install the master node for Mariadb galera high availability cluster configured for work on EC2 LAN (handled with ec2 firewall) avoid the exposition to the internet.
+Install the master node for Mariadb galera high availability cluster configured for work on EC2 LAN (handled with ec2 firewall) avoid the exposition to the internet.
 
 
 # Galera_nodes
